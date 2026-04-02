@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Image from 'next/image'
 import { Eye, EyeOff, Lock, Loader2, Shield } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -107,16 +106,26 @@ export default function AdminLoginClient() {
           {/* Logo */}
           <div className="flex flex-col items-center mb-7">
             <div
-              className="relative w-[72px] h-[72px] mb-4 rounded-2xl p-2"
+              className="mb-4 px-5 py-3 rounded-2xl"
               style={{
                 background: 'linear-gradient(135deg, rgba(200,150,60,0.12), rgba(200,150,60,0.04))',
                 border: '1px solid rgba(200,150,60,0.2)',
                 boxShadow: '0 0 40px rgba(200,150,60,0.15)',
               }}
             >
-              <Image src="/logo.png" alt="DAMIR" fill className="object-contain p-1" priority />
+              <span
+                className="font-serif font-black tracking-widest"
+                style={{
+                  fontSize: '2rem',
+                  background: 'linear-gradient(135deg, #f5e6c8, #d4a55a, #c8963c)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                DAMIR
+              </span>
             </div>
-            <h1 className="font-serif text-2xl font-bold text-white tracking-wider mb-0.5">DAMIR</h1>
             <p className="text-gray-500 text-xs tracking-widest uppercase">Administración</p>
           </div>
 

@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import {
   BookOpen, Package, ShoppingBag, Clock, Settings,
-  Plus, Edit, Trash2, Eye, EyeOff, Star, Image,
-  CheckCircle, AlertCircle, ArrowRight, LogIn, LogOut
+  Plus, Edit, Trash2, Eye, EyeOff, Star,
+  CheckCircle, AlertCircle, LogIn, LogOut
 } from 'lucide-react'
 
 export const metadata = { title: 'Guía de Uso — Admin DAMIR' }
@@ -11,7 +11,8 @@ const sections = [
   {
     id: 'acceso',
     icon: <LogIn size={22} />,
-    color: 'bg-blue-100 text-blue-700',
+    colorBg: 'rgba(59,130,246,0.15)',
+    colorText: '#60a5fa',
     title: '1. Cómo entrar al panel',
     steps: [
       { icon: '🌐', text: 'Abre tu navegador (Chrome, Safari, Firefox)' },
@@ -20,16 +21,17 @@ const sections = [
       { icon: '✅', text: '¡Listo! Ya estás dentro del panel' },
     ],
     note: 'La contraseña predeterminada es damir2026. Puedes cambiarla en Configuración.',
-    noteColor: 'bg-blue-50 border-blue-200 text-blue-800',
+    noteStyle: { background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.25)', color: '#93c5fd' },
   },
   {
     id: 'agregar',
     icon: <Plus size={22} />,
-    color: 'bg-green-100 text-green-700',
+    colorBg: 'rgba(34,197,94,0.15)',
+    colorText: '#4ade80',
     title: '2. Cómo agregar un producto',
     steps: [
       { icon: '📦', text: 'Haz clic en "Productos" en el menú de la izquierda' },
-      { icon: '➕', text: 'Haz clic en el botón azul "Nuevo Producto" (arriba a la derecha)' },
+      { icon: '➕', text: 'Haz clic en el botón "Nuevo Producto" (arriba a la derecha)' },
       { icon: '📸', text: 'PRIMERO sube las fotos del producto (arrastra las imágenes o haz clic en "Agregar fotos")' },
       { icon: '✍️', text: 'Escribe el nombre del producto (ej: "Camisa de lino blanca")' },
       { icon: '📝', text: 'Agrega una descripción detallada: material, para quién es, características' },
@@ -42,12 +44,13 @@ const sections = [
       { icon: '💾', text: 'Haz clic en "Guardar Producto"' },
     ],
     note: '💡 TIP: Las fotos son lo más importante. Un producto sin foto vende mucho menos. Sube mínimo 1 foto clara.',
-    noteColor: 'bg-green-50 border-green-200 text-green-800',
+    noteStyle: { background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', color: '#86efac' },
   },
   {
     id: 'editar',
     icon: <Edit size={22} />,
-    color: 'bg-amber-100 text-amber-700',
+    colorBg: 'rgba(200,150,60,0.15)',
+    colorText: '#f59e0b',
     title: '3. Cómo editar un producto (cambiar precio, stock, etc.)',
     steps: [
       { icon: '📦', text: 'Ve a "Productos" en el menú' },
@@ -61,12 +64,13 @@ const sections = [
       desc: 'En la tabla de productos, puedes hacer clic en los botones + y − para subir o bajar el stock directamente, sin necesidad de abrir el editor.',
     },
     note: '⚡ Cambio rápido: Si solo quieres actualizar el número de piezas disponibles, usa los botones + y − directamente en la lista.',
-    noteColor: 'bg-amber-50 border-amber-200 text-amber-800',
+    noteStyle: { background: 'rgba(200,150,60,0.1)', border: '1px solid rgba(200,150,60,0.25)', color: '#fcd34d' },
   },
   {
     id: 'ocultar',
     icon: <EyeOff size={22} />,
-    color: 'bg-purple-100 text-purple-700',
+    colorBg: 'rgba(139,92,246,0.15)',
+    colorText: '#a78bfa',
     title: '4. Cómo ocultar o mostrar un producto',
     steps: [
       { icon: '📦', text: 'Ve a "Productos" en el menú' },
@@ -76,12 +80,13 @@ const sections = [
       { icon: '🔒', text: 'Si el ojo está gris → el producto está oculto (tú lo ves en el panel, los clientes no)' },
     ],
     note: 'Usa esto cuando un producto se agota temporalmente o no quieres que aparezca sin eliminarlo.',
-    noteColor: 'bg-purple-50 border-purple-200 text-purple-800',
+    noteStyle: { background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.25)', color: '#c4b5fd' },
   },
   {
     id: 'eliminar',
     icon: <Trash2 size={22} />,
-    color: 'bg-red-100 text-red-700',
+    colorBg: 'rgba(239,68,68,0.15)',
+    colorText: '#f87171',
     title: '5. Cómo eliminar un producto',
     steps: [
       { icon: '📦', text: 'Ve a "Productos" en el menú' },
@@ -90,12 +95,13 @@ const sections = [
       { icon: '❌', text: 'Haz clic en "Sí, eliminar" para borrar permanentemente' },
     ],
     note: '⚠️ IMPORTANTE: Eliminar un producto es permanente. Si solo quieres que no se vea por un tiempo, usa la opción de ocultar (ojo) en vez de eliminar.',
-    noteColor: 'bg-red-50 border-red-200 text-red-800',
+    noteStyle: { background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5' },
   },
   {
     id: 'pedidos',
     icon: <ShoppingBag size={22} />,
-    color: 'bg-indigo-100 text-indigo-700',
+    colorBg: 'rgba(99,102,241,0.15)',
+    colorText: '#818cf8',
     title: '6. Cómo gestionar los pedidos',
     steps: [
       { icon: '📋', text: 'Haz clic en "Pedidos" en el menú de la izquierda' },
@@ -109,12 +115,13 @@ const sections = [
       desc: '🟡 Pendiente → Nuevo pedido recibido\n🔵 Confirmado → Pedido verificado\n🟣 Preparando → Estás preparando el pedido\n🟢 Listo → Listo para recoger (notifica al cliente)\n⚫ Entregado → Cliente recogió el pedido',
     },
     note: '💬 Cuando el pedido esté listo, usa el botón de WhatsApp para avisar al cliente. Así sabe que puede pasar.',
-    noteColor: 'bg-indigo-50 border-indigo-200 text-indigo-800',
+    noteStyle: { background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', color: '#a5b4fc' },
   },
   {
     id: 'horarios',
     icon: <Clock size={22} />,
-    color: 'bg-teal-100 text-teal-700',
+    colorBg: 'rgba(20,184,166,0.15)',
+    colorText: '#2dd4bf',
     title: '7. Cómo configurar los horarios de pickup',
     steps: [
       { icon: '🕐', text: 'Haz clic en "Horarios" en el menú' },
@@ -124,12 +131,13 @@ const sections = [
       { icon: '💾', text: 'Haz clic en "Guardar cambios" para aplicar' },
     ],
     note: '⏰ Si vas a cerrar por vacaciones o días festivos, pon esos días como "Cerrado" para que los clientes no puedan agendar en esas fechas.',
-    noteColor: 'bg-teal-50 border-teal-200 text-teal-800',
+    noteStyle: { background: 'rgba(20,184,166,0.1)', border: '1px solid rgba(20,184,166,0.25)', color: '#5eead4' },
   },
   {
     id: 'salir',
     icon: <LogOut size={22} />,
-    color: 'bg-gray-100 text-gray-700',
+    colorBg: 'rgba(255,255,255,0.08)',
+    colorText: 'rgba(255,255,255,0.6)',
     title: '8. Cómo cerrar sesión',
     steps: [
       { icon: '🚪', text: 'Ve al final del menú de la izquierda' },
@@ -137,7 +145,7 @@ const sections = [
       { icon: '✅', text: 'Tu sesión se cierra automáticamente' },
     ],
     note: 'La sesión se cierra sola después de 8 horas de inactividad por seguridad.',
-    noteColor: 'bg-gray-50 border-gray-200 text-gray-700',
+    noteStyle: { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.55)' },
   },
 ]
 
@@ -146,26 +154,27 @@ export default function GuiaPage() {
     <div className="p-6 md:p-8 max-w-4xl">
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
-        <div className="w-12 h-12 bg-damir-100 rounded-2xl flex items-center justify-center shrink-0">
-          <BookOpen size={24} className="text-damir-700" />
+        <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style={{ background: 'rgba(200,150,60,0.15)' }}>
+          <BookOpen size={24} style={{ color: '#c8963c' }} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Guía de Uso del Panel</h1>
-          <p className="text-gray-500 text-sm mt-0.5">
+          <h1 className="text-2xl font-bold text-white">Guía de Uso del Panel</h1>
+          <p className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>
             Todo lo que necesitas saber para administrar tu tienda DAMIR
           </p>
         </div>
       </div>
 
       {/* Quick navigation */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-8">
-        <p className="text-sm font-bold text-gray-600 uppercase tracking-wide mb-3">Ir a sección:</p>
+      <div className="rounded-2xl p-5 mb-8" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <p className="text-xs font-bold uppercase tracking-wide mb-3" style={{ color: 'rgba(255,255,255,0.4)' }}>Ir a sección:</p>
         <div className="flex flex-wrap gap-2">
           {sections.map((s) => (
             <a
               key={s.id}
               href={`#${s.id}`}
-              className="text-sm px-3 py-1.5 bg-gray-100 hover:bg-damir-100 hover:text-damir-800 text-gray-600 rounded-full transition-colors font-medium"
+              className="text-sm px-3 py-1.5 rounded-full transition-colors font-medium"
+              style={{ background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.6)' }}
             >
               {s.title.split('. ')[1]}
             </a>
@@ -179,14 +188,15 @@ export default function GuiaPage() {
           <div
             key={section.id}
             id={section.id}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden scroll-mt-8"
+            className="rounded-2xl overflow-hidden scroll-mt-8"
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
           >
             {/* Section header */}
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100 bg-gray-50">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${section.color}`}>
+            <div className="flex items-center gap-3 px-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: section.colorBg, color: section.colorText }}>
                 {section.icon}
               </div>
-              <h2 className="font-bold text-gray-900 text-lg">{section.title}</h2>
+              <h2 className="font-bold text-white text-lg">{section.title}</h2>
             </div>
 
             {/* Steps */}
@@ -195,26 +205,26 @@ export default function GuiaPage() {
                 {section.steps.map((step, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <div className="flex items-center gap-2 shrink-0">
-                      <span className="w-6 h-6 bg-gray-100 rounded-full text-xs font-bold text-gray-500 flex items-center justify-center shrink-0">
+                      <span className="w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }}>
                         {i + 1}
                       </span>
                       <span className="text-lg leading-none">{step.icon}</span>
                     </div>
-                    <p className="text-gray-700 text-sm leading-relaxed pt-0.5">{step.text}</p>
+                    <p className="text-sm leading-relaxed pt-0.5" style={{ color: 'rgba(255,255,255,0.7)' }}>{step.text}</p>
                   </li>
                 ))}
               </ol>
 
               {/* Extra info box */}
-              {section.extra && (
-                <div className="mt-4 bg-gray-50 rounded-xl p-4 border border-gray-200">
-                  <p className="font-semibold text-gray-700 text-sm mb-1.5">{section.extra.title}</p>
-                  <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">{section.extra.desc}</p>
+              {'extra' in section && section.extra && (
+                <div className="mt-4 rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                  <p className="font-semibold text-sm mb-1.5 text-white">{section.extra.title}</p>
+                  <p className="text-sm whitespace-pre-line leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{section.extra.desc}</p>
                 </div>
               )}
 
               {/* Note/tip */}
-              <div className={`mt-4 rounded-xl p-3 border text-sm ${section.noteColor}`}>
+              <div className="mt-4 rounded-xl p-3 text-sm" style={section.noteStyle}>
                 {section.note}
               </div>
             </div>
@@ -223,9 +233,9 @@ export default function GuiaPage() {
       </div>
 
       {/* Footer CTA */}
-      <div className="mt-8 bg-damir-900 rounded-2xl p-6 text-center text-white">
-        <p className="font-serif text-xl font-bold mb-2">¿Tienes dudas?</p>
-        <p className="text-cream-300 text-sm mb-4">
+      <div className="mt-8 rounded-2xl p-6 text-center" style={{ background: 'rgba(200,150,60,0.12)', border: '1px solid rgba(200,150,60,0.25)' }}>
+        <p className="font-serif text-xl font-bold mb-2 text-white">¿Tienes dudas?</p>
+        <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.55)' }}>
           Si algo no queda claro, escribe por WhatsApp y te ayudamos de inmediato.
         </p>
         <a

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard, Package, ShoppingBag, Calendar,
@@ -82,14 +81,21 @@ export default function AdminSidebar() {
       {/* Brand header */}
       <div className="px-5 pt-6 pb-5">
         <div className="flex items-center gap-3 mb-4">
-          <div className="relative w-12 h-12 shrink-0 drop-shadow-[0_0_18px_rgba(200,150,60,0.45)]">
-            <Image src="/logo.png" alt="DAMIR" fill className="object-contain" priority />
-          </div>
           <div>
-            <p className="font-serif font-bold text-white text-xl leading-none tracking-wide">DAMIR</p>
+            <p className="font-serif font-black leading-none tracking-widest"
+              style={{
+                fontSize: '1.6rem',
+                background: 'linear-gradient(135deg, #f5e6c8, #d4a55a, #c8963c)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'drop-shadow(0 0 10px rgba(200,150,60,0.35))',
+              }}>
+              DAMIR
+            </p>
             <div className="flex items-center gap-1.5 mt-1">
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full shadow-[0_0_6px_rgba(52,211,153,0.8)] animate-pulse" />
-              <p className="text-gray-400 text-[11px] font-medium tracking-wide uppercase">Panel Admin</p>
+              <p className="text-[11px] font-medium tracking-wide uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>Panel Admin</p>
             </div>
           </div>
         </div>

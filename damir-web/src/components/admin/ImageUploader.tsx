@@ -87,11 +87,12 @@ export default function ImageUploader({ images, onChange, maxImages = 6 }: Props
       {/* Upload zone */}
       {images.length < maxImages && (
         <div
-          className={`relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${
-            dragOver
-              ? 'border-damir-500 bg-damir-50 scale-[1.01]'
-              : 'border-gray-200 hover:border-damir-400 hover:bg-gray-50'
-          }`}
+          className="relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200"
+          style={{
+            borderColor: dragOver ? '#c8963c' : 'rgba(255,255,255,0.15)',
+            background: dragOver ? 'rgba(200,150,60,0.08)' : 'rgba(255,255,255,0.03)',
+            transform: dragOver ? 'scale(1.01)' : 'scale(1)',
+          }}
           onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
           onDragLeave={() => setDragOver(false)}
           onDrop={(e) => {
@@ -111,24 +112,24 @@ export default function ImageUploader({ images, onChange, maxImages = 6 }: Props
           />
 
           {uploading ? (
-            <div className="flex flex-col items-center gap-3 text-damir-600">
+            <div className="flex flex-col items-center gap-3" style={{ color: '#c8963c' }}>
               <Loader2 size={36} className="animate-spin" />
-              <p className="font-semibold">Subiendo imágenes...</p>
+              <p className="font-semibold text-white">Subiendo imágenes...</p>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-3">
-              <div className="w-14 h-14 bg-damir-100 rounded-full flex items-center justify-center">
-                <ImagePlus size={26} className="text-damir-600" />
+              <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,150,60,0.15)' }}>
+                <ImagePlus size={26} style={{ color: '#c8963c' }} />
               </div>
               <div>
-                <p className="font-semibold text-gray-700 text-base">
-                  Arrastra fotos aquí o <span className="text-damir-700 underline">elige archivos</span>
+                <p className="font-semibold text-base" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  Arrastra fotos aquí o <span style={{ color: '#c8963c' }} className="underline">elige archivos</span>
                 </p>
-                <p className="text-gray-400 text-sm mt-1">
+                <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
                   JPG, PNG, WEBP · Máx. {maxImages} fotos · La primera será la foto principal
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-xs text-gray-400">
+              <div className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
                 <Upload size={12} />
                 <span>Se suben directo a Cloudinary · Alta calidad · Sin límite de tamaño</span>
               </div>
@@ -140,8 +141,8 @@ export default function ImageUploader({ images, onChange, maxImages = 6 }: Props
       {/* Image grid */}
       {images.length > 0 && (
         <div>
-          <p className="text-sm font-semibold text-gray-600 mb-2 flex items-center gap-2">
-            <Star size={14} className="text-yellow-500" />
+          <p className="text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <Star size={14} className="text-yellow-400" />
             La primera imagen es la foto principal del producto
           </p>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
@@ -194,7 +195,10 @@ export default function ImageUploader({ images, onChange, maxImages = 6 }: Props
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="aspect-square border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-1 hover:border-damir-400 hover:bg-damir-50 transition-all text-gray-400 hover:text-damir-600"
+                className="aspect-square border-2 border-dashed rounded-xl flex flex-col items-center justify-center gap-1 transition-all"
+                style={{ borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.4)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#c8963c'; (e.currentTarget as HTMLButtonElement).style.color = '#c8963c' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.15)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.4)' }}
               >
                 <ImagePlus size={20} />
                 <span className="text-[10px] font-medium">Agregar</span>
