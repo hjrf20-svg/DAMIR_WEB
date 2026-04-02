@@ -256,6 +256,78 @@ body::before {
   top: 0;
 }
 
+/* ── ADMIN DARK THEME OVERRIDES ── */
+/* Aplica automáticamente a todas las páginas del admin */
+
+/* Tarjetas / cards blancas */
+.admin-area .bg-white,
+.admin-area [class*="bg-white"] {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.09) !important;
+}
+
+/* Textos grises → claros */
+.admin-area .text-gray-900,
+.admin-area .text-gray-800 { color: rgba(255,255,255,0.92) !important; }
+.admin-area .text-gray-700 { color: rgba(255,255,255,0.75) !important; }
+.admin-area .text-gray-600 { color: rgba(255,255,255,0.60) !important; }
+.admin-area .text-gray-500 { color: rgba(255,255,255,0.50) !important; }
+.admin-area .text-gray-400 { color: rgba(255,255,255,0.38) !important; }
+.admin-area .text-gray-300 { color: rgba(255,255,255,0.28) !important; }
+
+/* Fondos grises → oscuros */
+.admin-area .bg-gray-50    { background: rgba(255,255,255,0.04) !important; }
+.admin-area .bg-gray-100   { background: rgba(255,255,255,0.07) !important; }
+.admin-area .bg-gray-200   { background: rgba(255,255,255,0.10) !important; }
+
+/* Hover grises */
+.admin-area .hover\:bg-gray-50:hover  { background: rgba(255,255,255,0.06) !important; }
+.admin-area .hover\:bg-gray-100:hover { background: rgba(255,255,255,0.09) !important; }
+.admin-area .hover\:bg-gray-200:hover { background: rgba(255,255,255,0.12) !important; }
+
+/* Bordes grises */
+.admin-area .border-gray-50,
+.admin-area .border-gray-100 { border-color: rgba(255,255,255,0.08) !important; }
+.admin-area .border-gray-200 { border-color: rgba(255,255,255,0.12) !important; }
+.admin-area .border-gray-300 { border-color: rgba(255,255,255,0.18) !important; }
+
+/* Divide */
+.admin-area .divide-gray-50 > * + *,
+.admin-area .divide-gray-100 > * + * { border-color: rgba(255,255,255,0.07) !important; }
+
+/* Filtros de tabla/fila */
+.admin-area thead tr { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.08) !important; }
+.admin-area tbody tr:hover { background: rgba(255,255,255,0.05) !important; }
+
+/* Botones estado filtro inactivos */
+.admin-area .bg-gray-900 { background: rgba(200,150,60,0.85) !important; }
+
+/* Selects con option oscura */
+.admin-area select option { background: #1a0e05; color: #e8dcc8; }
+
+/* Inputs en admin */
+.admin-area input,
+.admin-area textarea,
+.admin-area select {
+  background: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.88) !important;
+  border-color: rgba(200,150,60,0.22) !important;
+}
+.admin-area input::placeholder,
+.admin-area textarea::placeholder { color: rgba(255,255,255,0.25) !important; }
+.admin-area input:focus,
+.admin-area textarea:focus,
+.admin-area select:focus {
+  border-color: rgba(200,150,60,0.5) !important;
+  box-shadow: 0 0 0 3px rgba(200,150,60,0.08) !important;
+}
+
+/* Modal de confirmación oscuro */
+.admin-area .fixed.bg-white {
+  background: #1e1206 !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
 /* Woodgrain texture overlay */
 .wood-texture {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
