@@ -21,11 +21,11 @@ interface ProductFormData {
 }
 
 const CATEGORIES: Array<{ value: ProductCategory; label: string; emoji: string }> = [
-  { value: 'ropa',       label: 'Ropa',        emoji: '👔' },
-  { value: 'calzado',    label: 'Calzado',      emoji: '👟' },
-  { value: 'muebles',    label: 'Muebles',      emoji: '🪑' },
-  { value: 'accesorios', label: 'Accesorios',   emoji: '👜' },
-  { value: 'restaurante',label: 'Restaurante',  emoji: '🍽️' },
+  { value: 'ropa',        label: 'Ropa',        emoji: '👔' },
+  { value: 'calzado',     label: 'Calzado',      emoji: '👟' },
+  { value: 'muebles',     label: 'Muebles',      emoji: '🪑' },
+  { value: 'accesorios',  label: 'Accesorios',   emoji: '👜' },
+  { value: 'restaurante', label: 'Restaurante',  emoji: '🍽️' },
 ]
 
 const SIZE_PRESETS: Record<string, string> = {
@@ -34,6 +34,13 @@ const SIZE_PRESETS: Record<string, string> = {
   'Calzado M':   '25, 26, 27, 28, 29, 30',
   'Calzado F':   '22, 23, 24, 25, 26, 27',
   'Cinturones':  'S, M, L, XL',
+}
+
+const card = {
+  background: 'rgba(255,255,255,0.04)',
+  border: '1px solid rgba(255,255,255,0.09)',
+  borderRadius: '1rem',
+  padding: '1.5rem',
 }
 
 export default function ProductForm({
@@ -98,14 +105,11 @@ export default function ProductForm({
         body: JSON.stringify(payload),
       })
 
-      // If Supabase not yet configured the API will fail — show friendly message
-      if (!res.ok && res.status !== 500) {
-        throw new Error('Error del servidor')
-      }
+      if (!res.ok && res.status !== 500) throw new Error('Error del servidor')
 
       toast.success(
         isEditing ? '✅ Producto actualizado correctamente' : '🎉 ¡Producto agregado a la tienda!',
-        { duration: 3000, style: { borderRadius: '12px' } }
+        { duration: 3000, style: { borderRadius: '12px', background: '#2d1a06', color: '#e8dcc8' } }
       )
       router.push('/admin/productos')
     } catch {
@@ -115,18 +119,21 @@ export default function ProductForm({
     }
   }
 
+  const labelClass = "block text-sm font-semibold mb-1.5" 
+  const sectionIcon = "w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+
   return (
     <form onSubmit={handleSubmit} className="max-w-3xl space-y-5">
 
-      {/* ── IMÁGENES (arriba y prominente) ── */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <div className="flex items-center gap-2 mb-5">
-          <div className="w-8 h-8 bg-damir-100 rounded-lg flex items-center justify-center">
-            <Layers size={16} className="text-damir-700" />
+      {/* ── IMÁGENES ── */}
+      <div style={card}>
+        <div className="flex items-center gap-3 mb-5">
+          <div className={sectionIcon} style={{ background: 'rgba(200,150,60,0.2)' }}>
+            <Layers size={16} style={{ color: '#c8963c' }} />
           </div>
           <div>
-            <h3 className="font-bold text-gray-800">Fotos del Producto</h3>
-            <p className="text-xs text-gray-400">Las fotos son lo más importante para vender</p>
+            <h3 className="font-bold text-white">Fotos del Producto</h3>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Las fotos son lo más importante para vender</p>
           </div>
         </div>
         <ImageUploader
@@ -137,19 +144,19 @@ export default function ProductForm({
       </div>
 
       {/* ── INFO BÁSICA ── */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <div className="flex items-center gap-2 mb-5">
-          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-            <Package size={16} className="text-blue-700" />
+      <div style={card}>
+        <div className="flex items-center gap-3 mb-5">
+          <div className={sectionIcon} style={{ background: 'rgba(99,179,237,0.15)' }}>
+            <Package size={16} style={{ color: '#63b3ed' }} />
           </div>
-          <h3 className="font-bold text-gray-800">Información del Producto</h3>
+          <h3 className="font-bold text-white">Información del Producto</h3>
         </div>
 
         <div className="space-y-4">
           {/* Nombre */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              Nombre del producto <span className="text-red-500">*</span>
+            <label className={labelClass} style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Nombre del producto <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
@@ -164,8 +171,8 @@ export default function ProductForm({
 
           {/* Descripción */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              Descripción <span className="text-red-500">*</span>
+            <label className={labelClass} style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Descripción <span className="text-red-400">*</span>
             </label>
             <textarea
               name="description"
@@ -176,13 +183,13 @@ export default function ProductForm({
               placeholder="Describe bien el producto: material, para quién es, qué lo hace especial..."
               className="input-damir resize-none text-sm leading-relaxed"
             />
-            <p className="text-xs text-gray-400 mt-1">{form.description.length}/500 caracteres</p>
+            <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>{form.description.length}/500 caracteres</p>
           </div>
 
           {/* Categoría */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Categoría <span className="text-red-500">*</span>
+            <label className={labelClass} style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Categoría <span className="text-red-400">*</span>
             </label>
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
               {CATEGORIES.map((c) => (
@@ -190,11 +197,11 @@ export default function ProductForm({
                   key={c.value}
                   type="button"
                   onClick={() => setForm((p) => ({ ...p, category: c.value }))}
-                  className={`flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 transition-all text-sm font-semibold ${
-                    form.category === c.value
-                      ? 'border-damir-700 bg-damir-50 text-damir-800'
-                      : 'border-gray-200 text-gray-600 hover:border-damir-400'
-                  }`}
+                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 transition-all text-sm font-semibold"
+                  style={form.category === c.value
+                    ? { borderColor: '#c8963c', background: 'rgba(200,150,60,0.15)', color: '#f5e6c8' }
+                    : { borderColor: 'rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.55)' }
+                  }
                 >
                   <span className="text-xl">{c.emoji}</span>
                   {c.label}
@@ -206,21 +213,21 @@ export default function ProductForm({
       </div>
 
       {/* ── PRECIO & STOCK ── */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <div className="flex items-center gap-2 mb-5">
-          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-            <DollarSign size={16} className="text-green-700" />
+      <div style={card}>
+        <div className="flex items-center gap-3 mb-5">
+          <div className={sectionIcon} style={{ background: 'rgba(72,199,142,0.15)' }}>
+            <DollarSign size={16} style={{ color: '#48c78e' }} />
           </div>
-          <h3 className="font-bold text-gray-800">Precio e Inventario</h3>
+          <h3 className="font-bold text-white">Precio e Inventario</h3>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              Precio en pesos MXN <span className="text-red-500">*</span>
+            <label className={labelClass} style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Precio en pesos MXN <span className="text-red-400">*</span>
             </label>
             <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-base">$</span>
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 font-bold text-base" style={{ color: 'rgba(200,150,60,0.8)' }}>$</span>
               <input
                 type="number"
                 name="price"
@@ -234,15 +241,15 @@ export default function ProductForm({
               />
             </div>
             {form.price && (
-              <p className="text-xs text-green-600 mt-1 font-medium">
+              <p className="text-xs mt-1 font-medium" style={{ color: '#48c78e' }}>
                 Precio: ${parseFloat(form.price || '0').toLocaleString('es-MX')} MXN
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-              Cantidad disponible <span className="text-red-500">*</span>
+            <label className={labelClass} style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Cantidad disponible <span className="text-red-400">*</span>
             </label>
             <input
               type="number"
@@ -256,8 +263,8 @@ export default function ProductForm({
             />
             {form.stock !== '' && (
               <p className={`text-xs mt-1 font-medium ${
-                parseInt(form.stock) === 0 ? 'text-red-500' :
-                parseInt(form.stock) <= 3 ? 'text-amber-600' : 'text-green-600'
+                parseInt(form.stock) === 0 ? 'text-red-400' :
+                parseInt(form.stock) <= 3 ? 'text-amber-400' : 'text-green-400'
               }`}>
                 {parseInt(form.stock) === 0
                   ? '⚠️ Aparecerá como Agotado'
@@ -271,28 +278,29 @@ export default function ProductForm({
       </div>
 
       {/* ── VARIANTES ── */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-            <Tag size={16} className="text-purple-700" />
+      <div style={card}>
+        <div className="flex items-center gap-3 mb-4">
+          <div className={sectionIcon} style={{ background: 'rgba(167,139,250,0.15)' }}>
+            <Tag size={16} style={{ color: '#a78bfa' }} />
           </div>
           <div>
-            <h3 className="font-bold text-gray-800">Tallas y Colores</h3>
-            <p className="text-xs text-gray-400">Opcional — déjalo vacío si el producto no tiene variantes</p>
+            <h3 className="font-bold text-white">Tallas y Colores</h3>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Opcional — déjalo vacío si el producto no tiene variantes</p>
           </div>
         </div>
 
         <div className="space-y-4 mt-4">
           {/* Tallas */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Tallas disponibles</label>
+            <label className={labelClass} style={{ color: 'rgba(255,255,255,0.75)' }}>Tallas disponibles</label>
             <div className="flex flex-wrap gap-2 mb-2">
               {Object.entries(SIZE_PRESETS).map(([label, sizes]) => (
                 <button
                   key={label}
                   type="button"
                   onClick={() => setForm((p) => ({ ...p, sizes }))}
-                  className="text-xs px-3 py-1.5 bg-gray-100 hover:bg-damir-100 text-gray-600 hover:text-damir-800 rounded-full transition-colors font-medium"
+                  className="text-xs px-3 py-1.5 rounded-full transition-colors font-medium"
+                  style={{ background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}
                 >
                   {label}
                 </button>
@@ -310,7 +318,7 @@ export default function ProductForm({
 
           {/* Colores */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Colores disponibles</label>
+            <label className={labelClass} style={{ color: 'rgba(255,255,255,0.75)' }}>Colores disponibles</label>
             <input
               type="text"
               name="colors"
@@ -324,40 +332,42 @@ export default function ProductForm({
       </div>
 
       {/* ── OPCIONES ── */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
-            <Info size={16} className="text-yellow-700" />
+      <div style={card}>
+        <div className="flex items-center gap-3 mb-4">
+          <div className={sectionIcon} style={{ background: 'rgba(251,191,36,0.15)' }}>
+            <Info size={16} style={{ color: '#fbbf24' }} />
           </div>
-          <h3 className="font-bold text-gray-800">Opciones de Visibilidad</h3>
+          <h3 className="font-bold text-white">Opciones de Visibilidad</h3>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-4">
-          <label className="flex items-start gap-3 cursor-pointer p-3 rounded-xl border-2 border-gray-200 hover:border-yellow-400 transition-all">
+          <label className="flex items-start gap-3 cursor-pointer p-3 rounded-xl border-2 transition-all"
+            style={{ borderColor: form.featured ? '#fbbf24' : 'rgba(255,255,255,0.1)', background: form.featured ? 'rgba(251,191,36,0.08)' : 'transparent' }}>
             <input
               type="checkbox"
               name="featured"
               checked={form.featured}
               onChange={handleChange}
-              className="w-5 h-5 mt-0.5 rounded accent-damir-800 shrink-0"
+              className="w-5 h-5 mt-0.5 rounded shrink-0 accent-amber-500"
             />
             <div>
-              <p className="font-semibold text-gray-700">⭐ Producto destacado</p>
-              <p className="text-xs text-gray-400 mt-0.5">Aparece en la página de inicio</p>
+              <p className="font-semibold text-white text-sm">⭐ Producto destacado</p>
+              <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Aparece en la página de inicio</p>
             </div>
           </label>
 
-          <label className="flex items-start gap-3 cursor-pointer p-3 rounded-xl border-2 border-gray-200 hover:border-green-400 transition-all">
+          <label className="flex items-start gap-3 cursor-pointer p-3 rounded-xl border-2 transition-all"
+            style={{ borderColor: form.active ? '#48c78e' : 'rgba(255,255,255,0.1)', background: form.active ? 'rgba(72,199,142,0.08)' : 'transparent' }}>
             <input
               type="checkbox"
               name="active"
               checked={form.active}
               onChange={handleChange}
-              className="w-5 h-5 mt-0.5 rounded accent-damir-800 shrink-0"
+              className="w-5 h-5 mt-0.5 rounded shrink-0 accent-green-500"
             />
             <div>
-              <p className="font-semibold text-gray-700">👁️ Visible en tienda</p>
-              <p className="text-xs text-gray-400 mt-0.5">Los clientes pueden ver este producto</p>
+              <p className="font-semibold text-white text-sm">👁️ Visible en tienda</p>
+              <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Los clientes pueden ver este producto</p>
             </div>
           </label>
         </div>
@@ -365,26 +375,28 @@ export default function ProductForm({
 
       {/* ── RESUMEN PREVIEW ── */}
       {form.name && form.price && (
-        <div className="bg-damir-50 border border-damir-200 rounded-2xl p-4 flex items-center gap-4">
+        <div className="rounded-2xl p-4 flex items-center gap-4"
+          style={{ background: 'rgba(200,150,60,0.1)', border: '1px solid rgba(200,150,60,0.25)' }}>
           {form.images[0] ? (
             <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0">
               <img src={form.images[0]} alt="" className="w-full h-full object-cover" />
             </div>
           ) : (
-            <div className="w-16 h-16 bg-damir-100 rounded-xl flex items-center justify-center shrink-0 text-2xl">
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center shrink-0 text-2xl"
+              style={{ background: 'rgba(200,150,60,0.15)' }}>
               {CATEGORIES.find(c => c.value === form.category)?.emoji}
             </div>
           )}
           <div>
-            <p className="text-xs text-damir-500 uppercase tracking-wide font-semibold">Vista previa</p>
-            <p className="font-bold text-damir-900 text-lg leading-tight">{form.name}</p>
-            <p className="text-damir-700 font-semibold">${parseFloat(form.price || '0').toLocaleString()} MXN</p>
+            <p className="text-xs uppercase tracking-wide font-semibold" style={{ color: 'rgba(200,150,60,0.7)' }}>Vista previa</p>
+            <p className="font-bold text-white text-lg leading-tight">{form.name}</p>
+            <p className="font-semibold" style={{ color: '#d4a55a' }}>${parseFloat(form.price || '0').toLocaleString()} MXN</p>
           </div>
           <div className="ml-auto text-right">
-            <p className={`text-sm font-bold ${parseInt(form.stock || '0') === 0 ? 'text-red-500' : 'text-green-600'}`}>
+            <p className={`text-sm font-bold ${parseInt(form.stock || '0') === 0 ? 'text-red-400' : 'text-green-400'}`}>
               {parseInt(form.stock || '0') === 0 ? 'Agotado' : `${form.stock} en stock`}
             </p>
-            {form.featured && <p className="text-xs text-yellow-600 mt-0.5">⭐ Destacado</p>}
+            {form.featured && <p className="text-xs text-amber-400 mt-0.5">⭐ Destacado</p>}
           </div>
         </div>
       )}

@@ -19,14 +19,15 @@ export default async function EditarProductoPage({ params }: PageProps) {
       <div className="mb-8">
         <Link
           href="/admin/productos"
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-damir-700 transition-colors mb-4"
+          className="inline-flex items-center gap-2 text-sm mb-4 transition-colors hover:text-white"
+          style={{ color: 'rgba(255,255,255,0.45)' }}
         >
           <ArrowLeft size={16} />
           Volver a productos
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">Editar Producto</h1>
-        <p className="text-gray-500 text-sm mt-1">
-          Modifica los datos de <strong>{product.name}</strong>
+        <h1 className="text-2xl font-bold text-white">Editar Producto</h1>
+        <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          Modifica los datos de <strong className="text-white">{product.name}</strong>
         </p>
       </div>
       <ProductForm
