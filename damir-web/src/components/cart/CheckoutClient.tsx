@@ -5,14 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
-  ShoppingBag, Calendar, Clock, User, Phone, Mail, MessageSquare,
-  CheckCircle, ArrowRight, ArrowLeft, ChevronRight
+  ShoppingBag, Calendar, Clock, User, MessageSquare,
+  CheckCircle, ArrowRight, ArrowLeft, ChevronRight, CreditCard
 } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
 import { formatPrice, generateOrderNumber, buildWhatsAppOrderMessage, WHATSAPP_NUMBER, PICKUP_HOURS } from '@/lib/utils'
 import toast from 'react-hot-toast'
 
-const STEPS = ['Resumen', 'Datos', 'Pickup', 'Confirmar']
+const STEPS = ['Resumen', 'Datos', 'Pickup', 'Pagar']
 
 function getAvailableDates(): Array<{ date: string; label: string; dayLabel: string }> {
   const dates = []
@@ -63,8 +63,53 @@ export default function CheckoutClient() {
     return true
   }
 
-  const handleSubmit = async () => {
+  const handlePagarOnline = async () => {
     setIsSubmitting(true)
+    const number = generateOrderNumber()
+    setOrderNumber(number)
+
+    try {
+      const res = await fetch('/api/pagos/crear', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderNumber: number,
+          customer: {
+            name: form.name,
+            phone: form.phone,
+            email: form.email,
+            notes: form.notes,
+          },
+          pickup: {
+            date: dates.find((d) => d.date === pickup.date)?.label ?? pickup.date,
+            time: pickup.time,
+          },
+          items: items.map((item) => ({
+            name: item.product.name,
+            quantity: item.quantity,
+            price: item.product.price,
+            category: item.product.category,
+          })),
+        }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok || !data.init_point) {
+        throw new Error(data.error || 'Error al crear el pago')
+      }
+
+      clearCart()
+      window.location.href = data.init_point
+    } catch (err) {
+      console.error(err)
+      toast.error('Error al iniciar el pago. Intenta de nuevo.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handlePagarWhatsApp = () => {
     const number = generateOrderNumber()
     setOrderNumber(number)
 
@@ -85,16 +130,9 @@ export default function CheckoutClient() {
       notes: form.notes,
     })
 
-    try {
-      // Open WhatsApp with the order summary
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`, '_blank')
-      clearCart()
-      setStep(4)
-    } catch {
-      toast.error('Error al procesar el pedido. Intenta de nuevo.')
-    } finally {
-      setIsSubmitting(false)
-    }
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`, '_blank')
+    clearCart()
+    setStep(4)
   }
 
   if (items.length === 0 && step !== 4) {
@@ -346,54 +384,97 @@ export default function CheckoutClient() {
               </div>
             )}
 
-            {/* STEP 3: Confirm */}
+            {/* STEP 3: Pagar */}
             {step === 3 && (
-              <div className="bg-white rounded-2xl p-6 shadow-card border border-cream-100">
-                <h2 className="font-serif text-xl font-bold text-damir-900 mb-5 flex items-center gap-2">
-                  <CheckCircle size={20} />
-                  Confirmar Pedido
-                </h2>
-                <div className="space-y-4">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="bg-cream-50 rounded-xl p-4">
-                      <p className="text-xs font-bold text-damir-500 uppercase tracking-wide mb-2">Cliente</p>
-                      <p className="font-semibold text-damir-800">{form.name}</p>
-                      <p className="text-damir-500 text-sm">{form.phone}</p>
-                      {form.email && <p className="text-damir-500 text-sm">{form.email}</p>}
+              <div className="space-y-4">
+                {/* Resumen del pedido */}
+                <div className="bg-white rounded-2xl p-6 shadow-card border border-cream-100">
+                  <h2 className="font-serif text-xl font-bold text-damir-900 mb-4 flex items-center gap-2">
+                    <CheckCircle size={20} />
+                    Resumen Final
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-3 mb-4">
+                    <div className="bg-cream-50 rounded-xl p-3">
+                      <p className="text-xs font-bold text-damir-500 uppercase mb-1">Cliente</p>
+                      <p className="font-semibold text-damir-800 text-sm">{form.name}</p>
+                      <p className="text-damir-500 text-xs">{form.phone}</p>
                     </div>
-                    <div className="bg-cream-50 rounded-xl p-4">
-                      <p className="text-xs font-bold text-damir-500 uppercase tracking-wide mb-2">Pickup</p>
-                      <p className="font-semibold text-damir-800">
+                    <div className="bg-cream-50 rounded-xl p-3">
+                      <p className="text-xs font-bold text-damir-500 uppercase mb-1">Pickup</p>
+                      <p className="font-semibold text-damir-800 text-sm">
                         {dates.find((d) => d.date === pickup.date)?.label}
                       </p>
-                      <p className="text-damir-500 text-sm">⏰ {pickup.time} hrs</p>
-                      <p className="text-damir-500 text-sm">📍 DAMIR · Magdalena de Kino</p>
+                      <p className="text-damir-500 text-xs">⏰ {pickup.time} · DAMIR Magdalena</p>
                     </div>
                   </div>
-
                   {form.notes && (
-                    <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
+                    <div className="bg-amber-50 rounded-xl p-3 border border-amber-200">
                       <p className="text-xs font-bold text-amber-600 uppercase mb-1">Notas</p>
                       <p className="text-sm text-amber-800">{form.notes}</p>
                     </div>
                   )}
+                </div>
 
-                  <div className="bg-green-50 rounded-xl p-4 border border-green-200 flex items-start gap-3">
-                    <MessageSquare size={20} className="text-green-600 mt-0.5 shrink-0" />
-                    <div>
-                      <p className="font-semibold text-green-800 text-sm">Se enviará por WhatsApp</p>
-                      <p className="text-green-600 text-xs mt-1">
-                        Al confirmar, se abrirá WhatsApp con los detalles de tu pedido para enviarlo a DAMIR.
-                      </p>
+                {/* Opciones de pago */}
+                <div className="bg-white rounded-2xl p-6 shadow-card border border-cream-100">
+                  <h2 className="font-serif text-xl font-bold text-damir-900 mb-5 flex items-center gap-2">
+                    <CreditCard size={20} />
+                    Elige cómo pagar
+                  </h2>
+
+                  {/* Pago online con MercadoPago */}
+                  <button
+                    onClick={handlePagarOnline}
+                    disabled={isSubmitting}
+                    className="w-full rounded-2xl p-5 mb-4 text-left transition-all hover:scale-[1.01] active:scale-[0.99] border-2 border-[#009ee3]/30 hover:border-[#009ee3]"
+                    style={{ background: 'linear-gradient(135deg, #e8f4fd, #f0f9ff)' }}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-bold text-[#009ee3] text-lg">MercadoPago</span>
+                      <span className="text-xs bg-[#009ee3] text-white px-2 py-0.5 rounded-full font-semibold">Recomendado</span>
                     </div>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {['💳 Tarjeta', '🏪 OXXO', '🏦 Transferencia SPEI', '📱 PayPal'].map((m) => (
+                        <span key={m} className="text-xs bg-white border border-[#009ee3]/20 text-[#009ee3] px-2 py-1 rounded-lg font-medium">{m}</span>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-500">Pago 100% seguro. El dinero se deposita directo a tu cuenta.</p>
+                    {isSubmitting && (
+                      <div className="flex items-center gap-2 mt-2 text-[#009ee3] text-sm font-semibold">
+                        <div className="w-4 h-4 border-2 border-[#009ee3]/30 border-t-[#009ee3] rounded-full animate-spin" />
+                        Preparando pago...
+                      </div>
+                    )}
+                  </button>
+
+                  {/* Separador */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-1 h-px bg-cream-200" />
+                    <span className="text-xs text-damir-400 font-medium">o si prefieres</span>
+                    <div className="flex-1 h-px bg-cream-200" />
                   </div>
+
+                  {/* Pagar en WhatsApp */}
+                  <button
+                    onClick={handlePagarWhatsApp}
+                    className="w-full rounded-2xl p-4 text-left transition-all hover:scale-[1.01] border border-green-200 hover:border-green-400"
+                    style={{ background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)' }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <MessageSquare size={22} className="text-green-600 shrink-0" />
+                      <div>
+                        <p className="font-semibold text-green-800 text-sm">Pagar en efectivo al recoger</p>
+                        <p className="text-xs text-green-600">Enviar pedido por WhatsApp y pagar cuando vayas a la tienda</p>
+                      </div>
+                    </div>
+                  </button>
                 </div>
               </div>
             )}
 
             {/* Navigation buttons */}
             <div className="flex gap-3">
-              {step > 0 && (
+              {step > 0 && step < 3 && (
                 <button
                   onClick={() => setStep(step - 1)}
                   className="btn-secondary flex-none"
@@ -402,7 +483,16 @@ export default function CheckoutClient() {
                   Atrás
                 </button>
               )}
-              {step < 3 ? (
+              {step === 3 && (
+                <button
+                  onClick={() => setStep(2)}
+                  className="btn-secondary flex-none"
+                >
+                  <ArrowLeft size={16} />
+                  Atrás
+                </button>
+              )}
+              {step < 3 && (
                 <button
                   onClick={() => setStep(step + 1)}
                   disabled={!canProceed()}
@@ -410,24 +500,6 @@ export default function CheckoutClient() {
                 >
                   Continuar
                   <ArrowRight size={16} />
-                </button>
-              ) : (
-                <button
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  className="btn-sage flex-1 justify-center py-4 text-base"
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Procesando...
-                    </span>
-                  ) : (
-                    <>
-                      <MessageSquare size={20} />
-                      Enviar Pedido por WhatsApp
-                    </>
-                  )}
                 </button>
               )}
             </div>
