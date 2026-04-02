@@ -256,6 +256,15 @@ body::before {
   top: 0;
 }
 
+/* ── ADMIN: quitar fondo/imagen del body cuando se está en admin ── */
+body:has(.admin-area) {
+  background-image: none !important;
+  background-color: #120a02 !important;
+}
+body:has(.admin-area)::before {
+  display: none !important;
+}
+
 /* ── ADMIN DARK THEME OVERRIDES ── */
 /* Aplica automáticamente a todas las páginas del admin */
 
